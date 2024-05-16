@@ -11,11 +11,11 @@ export const createPakageController = async (
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const { name, status, pickUpDate } = req.body;
+  const { name, pickUpDate } = req.body;
   const userId = req.params.id;
 
   try {
-    const newPackage = await createPackage(name, status, pickUpDate, userId);
+    const newPackage = await createPackage(name, pickUpDate, userId);
     res.status(201).json({ newPackage });
   } catch (error) {
     next(error);
@@ -35,6 +35,8 @@ export const packageStatusController = async (
   try {
     const packageId = req.params.id;
     const package_status = await packageStatus(packageId);
-    res.status(200).json({ packageStatus });
-  } catch (error) {}
+    res.status(200).json({ package_status });
+  } catch (error) {
+    next(error);
+  }
 };

@@ -44,13 +44,15 @@ export class Package extends Model<PackageAttributes, PackageCreationAttributes>
         status: {
           type: DataTypes.STRING,
           allowNull: false,
+          defaultValue: 'on-route',
+          validate: {
+            isIn: [['on-route', 'destination', 'failed']],
+          },
         },
         pickUpDate: {
           type: DataTypes.DATE,
           allowNull: false,
-          validate: {
-            isIn: [['on-route', 'destination', 'failed']],
-          },
+          
         },
         createdAt: {
           type: DataTypes.DATE,
