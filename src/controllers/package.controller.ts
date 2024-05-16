@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
+import { createPackage, packageStatus } from "../services/package.service";
 import { validationResult } from "express-validator";
-import { signup, login } from "../services/auth.service";
 
-export const signupController = async (
+export const createPakageController = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -11,18 +11,18 @@ export const signupController = async (
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
-  const { name, email, password } = req.body;
+  const { name, status, pickUpDate } = req.body;
+  const userId = req.params.id;
 
   try {
-    const user = await signup(name, email, password);
-    res.status(201).json({ user });
+    const newPackage = await createPackage(name, status, pickUpDate, userId);
+    res.status(201).json({ newPackage });
   } catch (error) {
     next(error);
   }
 };
 
-export const loginController = async (
+export const packageStatusController = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -32,12 +32,9 @@ export const loginController = async (
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { email, password } = req.body;
-
   try {
-    const { user, token } = await login(email, password);
-    res.json({ user, token });
-  } catch (error) {
-    next(error);
-  }
+    const packageId = req.params.id;
+    const package_status = await packageStatus(packageId);
+    res.status(200).json({ packageStatus });
+  } catch (error) {}
 };

@@ -20,3 +20,7 @@ export const packageStatus = async(packageId:string) => {
 
     return package_status
 }
+
+export const cronPackageUpdates = async ()=>{
+    
+}
