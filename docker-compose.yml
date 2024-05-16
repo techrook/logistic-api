@@ -1,10 +1,19 @@
 version: '3.7'
 services:
-  dev-db:
-    image: postgres:13
+  db:
+    build: .
+    image: my_postgres:latest
+    container_name: postgres_container
     ports:
-      - 5434:5432
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: nest
+      DB_HOST: localhost 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local

@@ -1,27 +1,27 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response,NextFunction,ErrorRequestHandler } from "express";
 import dotenv from "dotenv";
-import { sequelize } from './models';
-// configures dotenv to work in your application
+import DB from "./config/database.config";
+import authRoutes from './routes/auth.routes';
+
 dotenv.config();
 const app = express();
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Middleware to parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT;
 
-app.get("/", (request: Request, response: Response) => { 
-  response.status(200).send("Hello World");
-}); 
-sequelize.authenticate()
+
+
+app.use('/api/v1/auth', authRoutes);
+DB.sync()
   .then(() => {
-    console.log('Connection to the database has been established successfully.');
-    
-    // Sync the models and start the server
-    sequelize.sync().then(() => {
-      console.log('Database & tables created!');
-      
-    });
+    console.log("Connection has been established successfully.");
   })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
+  .catch((e: Error) => {
+    console.log("Unable to connect to the database:", e);
   });
 
   app.listen(PORT, () => {

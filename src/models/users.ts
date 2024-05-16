@@ -1,8 +1,9 @@
 // src/models/user.ts
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
+import DB from '../config/database.config';
 
 interface UserAttributes {
-  id: number;
+  id: string;
   name: string;
   email: string;
   password: string;
@@ -10,19 +11,20 @@ interface UserAttributes {
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 
-class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-  public id!: number;
+export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+  public id!: string;
   public name!: string;
   public email!: string;
-  public password!: string; 
+  public password!: string;
 
-  public static initModel(sequelize: Sequelize): typeof User {
+  public static initialize() {
     User.init(
       {
         id: {
-          type: DataTypes.INTEGER,
-          autoIncrement: true,
+          type: DataTypes.UUID,
           primaryKey: true,
+          defaultValue:DataTypes.UUIDV4 ,
+          allowNull : false
         },
         name: {
           type: DataTypes.STRING,
@@ -36,15 +38,13 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
         password: {
           type: DataTypes.STRING,
           allowNull: false,
-        }
+        },
       },
       {
-        sequelize,
+        sequelize:DB,
         tableName: 'users',
       }
     );
-    return User;
+
   }
 }
-
-export default User;
