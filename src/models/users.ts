@@ -1,19 +1,11 @@
 // src/models/user.ts
 import { DataTypes, Model, Optional } from 'sequelize';
 import DB from '../config/database.config';
+import { UserAttributes } from '../interfaces/users.interface';
 
-// Define the attributes of the User model
-interface UserAttributes {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-}
 
-// Define the optional attributes for creating a new User instance (excluding the id)
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 
-// Define the User model and extend the Model class provided by Sequelize
 export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   // Define the attributes of the User model
   public id!: string;
@@ -21,7 +13,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   public email!: string;
   public password!: string;
 
-  // Initialize the User model with the specified attributes and options
+
   public static initialize() {
     User.init(
       {
@@ -53,8 +45,8 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   }
 }
 
-// Call initialize to setup the model
+
 User.initialize();
 
-// Export the User model
+
 export default User;
