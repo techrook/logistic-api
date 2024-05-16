@@ -17,15 +17,13 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const users_1 = require("../models/users");
 const uuid_1 = require("uuid");
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+const index_config_1 = require("../config/index.config");
 const saltRounds = 10;
-const jwtSecret = process.env.JWT_SECRET || "qwertyuiop"; // Ensure to use a secure secret in production
+const jwtSecret = index_config_1.CONFIG.secret; // Ensure to use a secure secret in production
 const signup = (name, email, password) => __awaiter(void 0, void 0, void 0, function* () {
     const id = (0, uuid_1.v4)();
     const hashedPassword = yield bcrypt_1.default.hash(password, saltRounds);
     const user = yield users_1.User.create({ id, name, email, password: hashedPassword });
-    console.log(user);
     return user;
 });
 exports.signup = signup;

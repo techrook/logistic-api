@@ -2,7 +2,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import DB from '../config/database.config';
 import { UserAttributes } from '../interfaces/users.interface';
-
+import { Package } from './package'; 
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 
@@ -42,6 +42,12 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
         tableName: 'users',
       }
     );
+  }
+  public static associate() {
+    User.hasMany(Package, {
+      foreignKey: 'userId',
+      as: 'packages',
+    });
   }
 }
 

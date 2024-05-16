@@ -1,7 +1,9 @@
-import express, { Request, Response,NextFunction,ErrorRequestHandler } from "express";
+import express from "express";
 import dotenv from "dotenv";
 import DB from "./config/database.config";
 import authRoutes from './routes/auth.routes';
+import User from "./models/users";
+import Package from "./models/package";
 
 dotenv.config();
 const app = express();
@@ -16,9 +18,22 @@ const PORT = process.env.PORT;
 
 
 app.use('/api/v1/auth', authRoutes);
-DB.sync()
+async function initializeDatabase() {
+  try {
+
+    User.associate();
+    Package.associate();
+
+    await DB.sync();
+    console.log("Database synchronized successfully.");
+  } catch (error) {
+    console.error("Unable to synchronize the database:", error);
+  }
+}
+DB.authenticate()
   .then(() => {
     console.log("Connection has been established successfully.");
+    return initializeDatabase();
   })
   .catch((e: Error) => {
     console.log("Unable to connect to the database:", e);

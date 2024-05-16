@@ -31,4 +31,5 @@ exports.CONFIG = {
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || '123',
     database: process.env.DB_NAME || 'nest',
+    secret: process.env.JWT_SECRET
 };

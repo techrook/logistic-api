@@ -3,14 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
-// src/models/user.ts
+exports.Package = void 0;
+// src/models/package.ts
 const sequelize_1 = require("sequelize");
 const database_config_1 = __importDefault(require("../config/database.config"));
-const package_1 = require("./package");
-class User extends sequelize_1.Model {
+const users_1 = __importDefault(require("./users"));
+class Package extends sequelize_1.Model {
     static initialize() {
-        User.init({
+        Package.init({
             id: {
                 type: sequelize_1.DataTypes.UUID,
                 primaryKey: true,
@@ -21,27 +21,41 @@ class User extends sequelize_1.Model {
                 type: sequelize_1.DataTypes.STRING,
                 allowNull: false,
             },
-            email: {
+            status: {
                 type: sequelize_1.DataTypes.STRING,
                 allowNull: false,
-                unique: true,
             },
-            password: {
-                type: sequelize_1.DataTypes.STRING,
+            pickUpDate: {
+                type: sequelize_1.DataTypes.DATE,
+                allowNull: false,
+            },
+            createdAt: {
+                type: sequelize_1.DataTypes.DATE,
+                allowNull: false,
+                defaultValue: sequelize_1.DataTypes.NOW,
+            },
+            updatedAt: {
+                type: sequelize_1.DataTypes.DATE,
+                allowNull: false,
+                defaultValue: sequelize_1.DataTypes.NOW,
+            },
+            userId: {
+                type: sequelize_1.DataTypes.UUID,
                 allowNull: false,
             },
         }, {
             sequelize: database_config_1.default,
-            tableName: 'users',
+            tableName: 'packages',
+            timestamps: true,
         });
     }
     static associate() {
-        User.hasMany(package_1.Package, {
+        Package.belongsTo(users_1.default, {
             foreignKey: 'userId',
-            as: 'packages',
+            as: 'user',
         });
     }
 }
-exports.User = User;
-User.initialize();
-exports.default = User;
+exports.Package = Package;
+Package.initialize();
+exports.default = Package;
