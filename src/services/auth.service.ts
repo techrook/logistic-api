@@ -2,18 +2,17 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import {User} from '../models/users';
 import { v4 as uuidv4 } from "uuid";
-import dotenv from 'dotenv';
+import { CONFIG } from '../config/index.config';
 
-dotenv.config();
+
 const saltRounds = 10;
-const jwtSecret  = process.env.JWT_SECRET|| "qwertyuiop"; // Ensure to use a secure secret in production
+const jwtSecret  = CONFIG.secret; // Ensure to use a secure secret in production
 
 export const signup = async (name: string, email: string, password: string) => {
   const id = uuidv4();
   const hashedPassword = await bcrypt.hash(password, saltRounds);
   
   const user = await User.create({id, name, email, password: hashedPassword });
-  console.log(user)
   return user;
 };
 

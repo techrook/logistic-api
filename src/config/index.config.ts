@@ -7,6 +7,7 @@ declare var process : {
       DB_USER : string,
       DB_PASSWORD : string,
       DB_NAME: string,
+      JWT_SECRET:string
     }
   }
 
@@ -15,4 +16,5 @@ declare var process : {
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || '123',
     database: process.env.DB_NAME || 'nest',
+    secret: process.env.JWT_SECRET
   }
