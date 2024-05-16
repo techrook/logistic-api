@@ -24,8 +24,8 @@ const jwtSecret = process.env.JWT_SECRET || "qwertyuiop"; // Ensure to use a sec
 const signup = (name, email, password) => __awaiter(void 0, void 0, void 0, function* () {
     const id = (0, uuid_1.v4)();
     const hashedPassword = yield bcrypt_1.default.hash(password, saltRounds);
-    console.log(users_1.User);
     const user = yield users_1.User.create({ id, name, email, password: hashedPassword });
+    console.log(user);
     return user;
 });
 exports.signup = signup;

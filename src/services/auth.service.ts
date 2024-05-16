@@ -11,9 +11,9 @@ const jwtSecret  = process.env.JWT_SECRET|| "qwertyuiop"; // Ensure to use a sec
 export const signup = async (name: string, email: string, password: string) => {
   const id = uuidv4();
   const hashedPassword = await bcrypt.hash(password, saltRounds);
-  console.log(User)
-  const user = await User.create({id, name, email, password: hashedPassword });
   
+  const user = await User.create({id, name, email, password: hashedPassword });
+  console.log(user)
   return user;
 };
 
