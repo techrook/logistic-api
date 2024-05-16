@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const database_config_1 = __importDefault(require("./config/database.config"));
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
+const package_routes_1 = __importDefault(require("./routes/package.routes"));
 const users_1 = __importDefault(require("./models/users"));
 const package_1 = __importDefault(require("./models/package"));
 dotenv_1.default.config();
@@ -25,7 +26,9 @@ app.use(express_1.default.json());
 // Middleware to parse URL-encoded bodies
 app.use(express_1.default.urlencoded({ extended: true }));
 const PORT = process.env.PORT;
+//routes
 app.use('/api/v1/auth', auth_routes_1.default);
+app.use('/api/v1/package', package_routes_1.default);
 function initializeDatabase() {
     return __awaiter(this, void 0, void 0, function* () {
         try {

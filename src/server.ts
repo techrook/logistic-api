@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import DB from "./config/database.config";
 import authRoutes from './routes/auth.routes';
+import packageRoutes from './routes/package.routes'
 import User from "./models/users";
 import Package from "./models/package";
 
@@ -16,8 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 const PORT = process.env.PORT;
 
 
-
+//routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/package', packageRoutes);
+
 async function initializeDatabase() {
   try {
 

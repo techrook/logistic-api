@@ -14,6 +14,8 @@ router.post(
 );
 
 router.get(
-    '/package/status/:id',
+    '/status/:id',
     packageStatusController
 )
+
+export default router;

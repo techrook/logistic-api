@@ -24,6 +24,10 @@ class Package extends sequelize_1.Model {
             status: {
                 type: sequelize_1.DataTypes.STRING,
                 allowNull: false,
+                defaultValue: 'on-route',
+                validate: {
+                    isIn: [['on-route', 'destination', 'failed']],
+                },
             },
             pickUpDate: {
                 type: sequelize_1.DataTypes.DATE,
